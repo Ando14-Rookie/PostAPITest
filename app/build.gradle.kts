@@ -52,4 +52,6 @@ dependencies {
     implementation("com.google.code.gson:gson:2.13.1")
     // Coroutines to make the HTTP requests asynchronous(In the background thread)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    //Gson Converter Factory
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }
