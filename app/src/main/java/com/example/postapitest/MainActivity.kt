@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
@@ -13,24 +12,35 @@ import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var textView:TextView
+    private lateinit var textName:TextView
+    private lateinit var textJob:TextView
+    private lateinit var textID:TextView
+    private lateinit var textCreated:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        textView = findViewById(R.id.text123)
+        textName = findViewById(R.id.textName)
+        textJob = findViewById(R.id.textJob)
+        textID = findViewById(R.id.textID)
+        textCreated = findViewById(R.id.textCreated)
+
         val myAPI = Retrofit.Builder()
             .baseUrl("https://reqres.in")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(APIFunction::class.java)
 
-        myAPI.createEmployee("reqres-free-v1", RequestBody1("Morpheous","leader")).enqueue(object :Callback<ResponseBody11>{
+        myAPI.createEmployee("reqres-free-v1", RequestBody1("Morpheus","leader")).enqueue(object :Callback<ResponseBody11>{
             override fun onResponse(call: Call<ResponseBody11>, response: Response<ResponseBody11>) {
                 if(response.isSuccessful){
                     Log.i("CheckDone","Response to $response")
-                    textView.text = response.body()?.name
-                    Toast.makeText(applicationContext, "$response is SUCCESSFUL", Toast.LENGTH_LONG).show()
+                    textName.text = response.body()?.name
+                    textJob.text = response.body()?.job.toString()
+                    textID.text = response.body()?.id.toString()
+                    textCreated.text = response.body()?.createdAt.toString()
+                    Toast.makeText(applicationContext, "${response.body()?.name} and ${response.body()?.job} is SENT",
+                                   Toast.LENGTH_LONG).show()
                 }
                 else{
                     Log.i("API Response", response.toString())
